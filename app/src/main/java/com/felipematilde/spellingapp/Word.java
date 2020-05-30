@@ -44,4 +44,13 @@ public class Word implements Comparable<Word> {
     public List<String> getWrongSpellingList(){
         return this.wrongSpellingList;
     }
+
+    public String getRandomSpelling(){
+        if(2*Math.random()-1>0){
+            return this.correctSpelling;
+        }else{
+            int i = (int) Math.round(Math.random()*(this.getWrongSpellingList().size()-1));
+            return this.getWrongSpellingList().get(i);
+        }
+    }
 }

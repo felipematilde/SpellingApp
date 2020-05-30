@@ -8,10 +8,12 @@ import android.widget.TextView;
 import com.felipematilde.spellingapp.KeyboardHelper;
 import com.felipematilde.spellingapp.R;
 import com.felipematilde.spellingapp.Vocabulary;
+import com.felipematilde.spellingapp.Word;
 
 import org.w3c.dom.Text;
 
 public class PracticeActivity extends JsonHandler {
+    Word word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,8 @@ public class PracticeActivity extends JsonHandler {
                     correctButton.setEnabled(false);
                     wrongButton.setEnabled(false);
                     spellingTextView.setEnabled(false);
-                    spellingAlert.setText("Submited!");
+                    evaluateAnswer();
+                    saveOnJson();
                     submitButton.setEnabled(false);
                     KeyboardHelper.HideKeyboard(PracticeActivity.this,v);
                     nextButton.setEnabled(true);
@@ -97,11 +100,30 @@ public class PracticeActivity extends JsonHandler {
         });
     }
 
+    public void evaluateAnswer(){
+        TextView sampleTextView = (TextView) findViewById(R.id.sampleTextView);
+        Button correctButton = (Button) findViewById(R.id.correctButton);
+        TextView spellingTextView = (TextView) findViewById(R.id.spellingTextView);
+        TextView spellingAlert = (TextView) findViewById(R.id.spellingAlert);
+        String sample = sampleTextView.getText().toString();
+        sample = sample.toLowerCase();
+        String userSpelling = spellingTextView.getText().toString();
+        userSpelling = userSpelling.toLowerCase();
+        if((word.getCorrectSpelling().equals(sample) && correctButton.isSelected()) ||
+                (!word.getCorrectSpelling().equals(sample) && word.getCorrectSpelling().equals(userSpelling))) {
+            word.addSpelling(word.getCorrectSpelling());
+            spellingAlert.setText("Good job!");
+        }else{
+            word.addSpelling(userSpelling);
+            spellingAlert.setText("Sorry, the correct spelling is " + word.getCorrectSpelling());
+        }
+    }
+
     public void setRandomWord(){
         TextView sampleTextView = (TextView) findViewById(R.id.sampleTextView);
-        sampleTextView.setText("Hello World");
-        String str = vocabulary.getWord().getCorrectSpelling();
-        str = str.substring(0,1).toUpperCase()+str.substring(1).toLowerCase();
-        sampleTextView.setText(str);
+        this.word = vocabulary.getWord();
+        String spelling = this.word.getRandomSpelling();
+        spelling = spelling.substring(0,1).toUpperCase()+spelling.substring(1).toLowerCase();
+        sampleTextView.setText(spelling);
     }
 }

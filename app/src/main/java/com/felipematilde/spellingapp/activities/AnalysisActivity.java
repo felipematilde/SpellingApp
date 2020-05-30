@@ -25,6 +25,7 @@ public class AnalysisActivity extends JsonHandler {
             textView.setText(i+1 + ") " + adjustUpperCase(vocabulary.getList().get(i).getCorrectSpelling()) +
                     " | Errors: " + vocabulary.getList().get(i).getErrors() +
                     " | Trys: " + vocabulary.getList().get(i).getTrys());
+            textView.setTextSize(18);
             ll.addView(textView);
             linearLayout.addView(ll);
         }

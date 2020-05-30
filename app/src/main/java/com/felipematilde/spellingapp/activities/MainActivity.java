@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.felipematilde.spellingapp.KeyboardHelper;
 import com.felipematilde.spellingapp.R;
-import com.felipematilde.spellingapp.Word;
 
 public class MainActivity extends JsonHandler {
 
@@ -45,6 +44,7 @@ public class MainActivity extends JsonHandler {
                         vocabulary.getWord(correcSpelling).addSpelling(wrongSpelling);
                     }else{
                         vocabulary.addWord(correcSpelling);
+                        vocabulary.getWord(correcSpelling).addSpelling(wrongSpelling);
                     }
                     saveOnJson();
                     correctSpellingTxt.setText("");
